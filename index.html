@@ -246,7 +246,7 @@
         .social-btn:hover {
             background: var(--accent-primary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(184, 71, 173, 0.3);
+            box-shadow: 0 8px 15px rgba(184, 71, 173, 0.4);
         }
 
         .social-btn svg {
@@ -594,11 +594,6 @@
             z-index: 100;
             font-size: 20px;
             line-height: 1;
-            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при тапе */
-            outline: none; /* Убирает контур фокуса */
-            border: none;
-            appearance: none;
-            -webkit-appearance: none;
         }
 
         .back-to-top.visible {
@@ -606,30 +601,20 @@
             visibility: visible;
         }
 
-        .back-to-top:hover, .back-to-top:active {
-            background: var(--accent-secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(184, 71, 173, 0.4);
+        /* Эффект наведения для десктопных устройств */
+        @media (hover: hover) {
+            .back-to-top:hover {
+                background: var(--accent-secondary);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 15px rgba(184, 71, 173, 0.4);
+            }
         }
         
-        /* Убираем стили активного состояния на мобильных устройствах */
-        @media (max-width: 1024px) {
-            .back-to-top:active {
+        /* Для устройств без поддержки hover */
+        @media (hover: none) {
+            .back-to-top:hover {
+                transform: none;
                 background: var(--accent-primary);
-                transform: translateY(0);
-                box-shadow: 0 4px 10px rgba(184, 71, 173, 0.3);
-                transition: background-color 0.3s;
-            }
-            
-            /* Добавляем анимацию нажатия */
-            .back-to-top.tapped {
-                animation: tapPulse 0.3s ease-out;
-            }
-            
-            @keyframes tapPulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(0.9); }
-                100% { transform: scale(1); }
             }
         }
 
@@ -804,6 +789,13 @@
                 width: 40px;
                 height: 40px;
             }
+            
+            /* Отключение эффекта наведения на мобильных устройствах */
+            .back-to-top:hover {
+                transform: none;
+                background: var(--accent-primary);
+                box-shadow: 0 4px 10px rgba(184, 71, 173, 0.3);
+            }
         }
 
         @media (max-width: 576px) {
@@ -822,22 +814,22 @@
             }
             
             .profile-image {
-                width: 180px;
-                height: 180px;
+                width: 150px;
+                height: 150px;
                 font-size: 2rem;
-                border-width: 6px;
+                border-width: 5px;
                 margin-bottom: 1.5rem;
                 box-shadow: 0 20px 30px rgba(184, 71, 173, 0.4);
             }
-            
+
             .profile-image:hover {
                 transform: none;
             }
-            
+
             .profile-image img {
                 border-radius: 50%;
             }
-            
+
             .profile-info h1 {
                 font-size: 2.25rem;
                 margin-bottom: 0.5rem;
@@ -917,8 +909,8 @@
 
         @media (max-width: 400px) {
             .profile-image {
-                width: 160px;
-                height: 160px;
+                width: 130px;
+                height: 130px;
             }
 
             .profile-info h1 {
@@ -982,9 +974,9 @@
         /* Поддержка для очень маленьких экранов */
         @media (max-width: 320px) {
             .profile-image {
-                width: 140px;
-                height: 140px;
-                border-width: 5px;
+                width: 110px;
+                height: 110px;
+                border-width: 3px;
             }
             
             .profile-info h1 {
@@ -1267,68 +1259,6 @@
                 gap: 1.5rem;
             }
         }
-
-        /* Эффект свечения при прокрутке на мобильных устройствах */
-        @media (max-width: 1024px) {
-            .mobile-glow {
-                animation: mobilePulse 3s infinite alternate;
-                position: relative;
-                z-index: 1;
-            }
-            
-            @keyframes mobilePulse {
-                0% {
-                    box-shadow: 0 0 5px rgba(184, 71, 173, 0.2);
-                    border-color: var(--border-primary);
-                }
-                50% {
-                    box-shadow: 0 0 20px rgba(184, 71, 173, 0.4);
-                    border-color: rgba(184, 71, 173, 0.6);
-                }
-                100% {
-                    box-shadow: 0 0 30px rgba(184, 71, 173, 0.6);
-                    border-color: var(--accent-primary);
-                }
-            }
-            
-            /* Специальное свечение для фотографии профиля */
-            .profile-image {
-                animation: profileGlow 4s infinite alternate;
-            }
-            
-            @keyframes profileGlow {
-                0% {
-                    box-shadow: 0 5px 15px rgba(184, 71, 173, 0.3);
-                    border-color: rgba(255, 255, 255, 0.6);
-                }
-                50% {
-                    box-shadow: 0 15px 30px rgba(184, 71, 173, 0.5);
-                    border-color: rgba(255, 255, 255, 0.8);
-                }
-                100% {
-                    box-shadow: 0 20px 40px rgba(184, 71, 173, 0.7);
-                    border-color: white;
-                    transform: translateY(-5px);
-                }
-            }
-            
-            .glow-effect:hover {
-                transform: none;
-                box-shadow: none;
-                transition: none;
-            }
-            
-            .glow-effect:hover::after {
-                opacity: 0;
-            }
-            
-            .section:hover, 
-            .skill-category:hover, 
-            .quality-category:hover, 
-            .education-item:hover {
-                transform: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1560,7 +1490,7 @@
         </section>
     </div>
 
-    <div class="back-to-top" id="backToTop" role="button" aria-label="Прокрутить наверх">
+    <div class="back-to-top" id="backToTop">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 15l-6-6-6 6"/>
         </svg>
@@ -1589,71 +1519,29 @@
                 observer.observe(section);
             });
 
-            // Добавление эффекта свечения при прокрутке на мобильных устройствах
-            if (window.innerWidth <= 1024) {
-                const mobileObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Не добавляем класс mobile-glow к profile-image, так как у неё уже есть своя анимация
-                            if (!entry.target.classList.contains('profile-image')) {
-                                entry.target.classList.add('mobile-glow');
-                                
-                                // Сбрасываем анимацию через некоторое время
-                                setTimeout(() => {
-                                    entry.target.classList.remove('mobile-glow');
-                                    // Добавляем небольшую задержку перед повторным добавлением класса
-                                    setTimeout(() => {
-                                        if (entry.isIntersecting) {
-                                            entry.target.classList.add('mobile-glow');
-                                        }
-                                    }, 500);
-                                }, 3000);
-                            }
-                        }
-                    });
-                }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
-                
-                // Применяем наблюдатель ко всем секциям, карточкам навыков и образования
-                document.querySelectorAll('.section, .skill-category, .quality-category, .education-item').forEach(item => {
-                    mobileObserver.observe(item);
-                });
-            }
-
             // Кнопка "Наверх"
             const backToTopButton = document.getElementById('backToTop');
             
-            // Сделать кнопку видимой по умолчанию
-            backToTopButton.classList.add('visible');
+            // Показать кнопку после прокрутки первой секции
+            const headerSection = document.querySelector('.header');
             
             window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
+                // Получаем позицию и высоту первой секции
+                const headerRect = headerSection.getBoundingClientRect();
+                
+                // Если нижняя граница шапки вышла за пределы экрана (прокрутили первую секцию)
+                if (headerRect.bottom <= 0) {
                     backToTopButton.classList.add('visible');
                 } else {
-                    // Удалите эту строку, чтобы кнопка всегда оставалась видимой
-                    // backToTopButton.classList.remove('visible');
+                    backToTopButton.classList.remove('visible');
                 }
             });
 
             backToTopButton.addEventListener('click', () => {
-                backToTopButton.classList.add('tapped');
-                
-                // Удаляем класс tapped после анимации
-                setTimeout(() => {
-                    backToTopButton.classList.remove('tapped');
-                }, 300);
-                
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
-            });
-
-            // Для мобильных устройств добавляем обработчик события touchend
-            backToTopButton.addEventListener('touchend', () => {
-                // Удаляем все активные состояния через небольшую задержку
-                setTimeout(() => {
-                    backToTopButton.blur();
-                }, 300);
             });
 
             // Эффекты при наведении для элементов с классом glow-effect
