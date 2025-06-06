@@ -594,6 +594,11 @@
             z-index: 100;
             font-size: 20px;
             line-height: 1;
+            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при тапе */
+            outline: none; /* Убирает контур фокуса */
+            border: none;
+            appearance: none;
+            -webkit-appearance: none;
         }
 
         .back-to-top.visible {
@@ -601,10 +606,31 @@
             visibility: visible;
         }
 
-        .back-to-top:hover {
+        .back-to-top:hover, .back-to-top:active {
             background: var(--accent-secondary);
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(184, 71, 173, 0.4);
+        }
+        
+        /* Убираем стили активного состояния на мобильных устройствах */
+        @media (max-width: 1024px) {
+            .back-to-top:active {
+                background: var(--accent-primary);
+                transform: translateY(0);
+                box-shadow: 0 4px 10px rgba(184, 71, 173, 0.3);
+                transition: background-color 0.3s;
+            }
+            
+            /* Добавляем анимацию нажатия */
+            .back-to-top.tapped {
+                animation: tapPulse 0.3s ease-out;
+            }
+            
+            @keyframes tapPulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(0.9); }
+                100% { transform: scale(1); }
+            }
         }
 
         .social-links {
@@ -1534,7 +1560,7 @@
         </section>
     </div>
 
-    <div class="back-to-top" id="backToTop">
+    <div class="back-to-top" id="backToTop" role="button" aria-label="Прокрутить наверх">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 15l-6-6-6 6"/>
         </svg>
@@ -1609,10 +1635,25 @@
             });
 
             backToTopButton.addEventListener('click', () => {
+                backToTopButton.classList.add('tapped');
+                
+                // Удаляем класс tapped после анимации
+                setTimeout(() => {
+                    backToTopButton.classList.remove('tapped');
+                }, 300);
+                
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
+            });
+
+            // Для мобильных устройств добавляем обработчик события touchend
+            backToTopButton.addEventListener('touchend', () => {
+                // Удаляем все активные состояния через небольшую задержку
+                setTimeout(() => {
+                    backToTopButton.blur();
+                }, 300);
             });
 
             // Эффекты при наведении для элементов с классом glow-effect
