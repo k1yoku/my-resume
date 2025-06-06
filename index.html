@@ -592,6 +592,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(184, 71, 173, 0.3);
             z-index: 100;
+            font-size: 20px;
+            line-height: 1;
         }
 
         .back-to-top.visible {
@@ -1448,7 +1450,9 @@
     </div>
 
     <div class="back-to-top" id="backToTop">
-        ↑
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
     </div>
 
     <script>
@@ -1477,11 +1481,15 @@
             // Кнопка "Наверх"
             const backToTopButton = document.getElementById('backToTop');
             
+            // Сделать кнопку видимой по умолчанию
+            backToTopButton.classList.add('visible');
+            
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 300) {
                     backToTopButton.classList.add('visible');
                 } else {
-                    backToTopButton.classList.remove('visible');
+                    // Удалите эту строку, чтобы кнопка всегда оставалась видимой
+                    // backToTopButton.classList.remove('visible');
                 }
             });
 
