@@ -786,32 +786,49 @@
             }
             
             .header {
-                padding: 2rem 1rem;
+                padding: 3rem 1.5rem;
                 border-radius: 12px;
                 min-height: auto;
             }
             
-            .profile-image {
-                width: 120px;
-                height: 120px;
-                font-size: 2rem;
-                border-width: 4px;
-                margin-bottom: 1rem;
+            .profile-section {
+                padding: 0 0.5rem;
             }
-
-            .profile-info h1 {
+            
+            .profile-image {
+                width: 180px;
+                height: 180px;
                 font-size: 2rem;
-                margin-bottom: 0.25rem;
+                border-width: 6px;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 20px 30px rgba(184, 71, 173, 0.4);
+            }
+            
+            .profile-image:hover {
+                transform: none;
+            }
+            
+            .profile-image img {
+                border-radius: 50%;
+            }
+            
+            .profile-info h1 {
+                font-size: 2.25rem;
+                margin-bottom: 0.5rem;
+                line-height: 1.2;
             }
             
             .profile-info .title {
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
+                font-size: 1.25rem;
+                margin-bottom: 1.25rem;
+                line-height: 1.3;
             }
             
             .profile-bio {
-                font-size: 0.9rem;
-                margin-bottom: 1.25rem;
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
+                line-height: 1.5;
             }
 
             .section {
@@ -874,16 +891,21 @@
 
         @media (max-width: 400px) {
             .profile-image {
-                width: 100px;
-                height: 100px;
+                width: 160px;
+                height: 160px;
             }
 
             .profile-info h1 {
-                font-size: 1.75rem;
+                font-size: 2rem;
             }
             
             .profile-info .title {
-                font-size: 1rem;
+                font-size: 1.15rem;
+            }
+            
+            .profile-bio {
+                font-size: 0.95rem;
+                padding: 0 0.5rem;
             }
             
             .section-title {
@@ -934,21 +956,22 @@
         /* Поддержка для очень маленьких экранов */
         @media (max-width: 320px) {
             .profile-image {
-                width: 80px;
-                height: 80px;
-                border-width: 3px;
+                width: 140px;
+                height: 140px;
+                border-width: 5px;
             }
             
             .profile-info h1 {
-                font-size: 1.5rem;
+                font-size: 1.75rem;
             }
             
             .profile-info .title {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             
             .profile-bio {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
+                padding: 0;
             }
             
             .section {
@@ -1218,6 +1241,68 @@
                 gap: 1.5rem;
             }
         }
+
+        /* Эффект свечения при прокрутке на мобильных устройствах */
+        @media (max-width: 1024px) {
+            .mobile-glow {
+                animation: mobilePulse 3s infinite alternate;
+                position: relative;
+                z-index: 1;
+            }
+            
+            @keyframes mobilePulse {
+                0% {
+                    box-shadow: 0 0 5px rgba(184, 71, 173, 0.2);
+                    border-color: var(--border-primary);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(184, 71, 173, 0.4);
+                    border-color: rgba(184, 71, 173, 0.6);
+                }
+                100% {
+                    box-shadow: 0 0 30px rgba(184, 71, 173, 0.6);
+                    border-color: var(--accent-primary);
+                }
+            }
+            
+            /* Специальное свечение для фотографии профиля */
+            .profile-image {
+                animation: profileGlow 4s infinite alternate;
+            }
+            
+            @keyframes profileGlow {
+                0% {
+                    box-shadow: 0 5px 15px rgba(184, 71, 173, 0.3);
+                    border-color: rgba(255, 255, 255, 0.6);
+                }
+                50% {
+                    box-shadow: 0 15px 30px rgba(184, 71, 173, 0.5);
+                    border-color: rgba(255, 255, 255, 0.8);
+                }
+                100% {
+                    box-shadow: 0 20px 40px rgba(184, 71, 173, 0.7);
+                    border-color: white;
+                    transform: translateY(-5px);
+                }
+            }
+            
+            .glow-effect:hover {
+                transform: none;
+                box-shadow: none;
+                transition: none;
+            }
+            
+            .glow-effect:hover::after {
+                opacity: 0;
+            }
+            
+            .section:hover, 
+            .skill-category:hover, 
+            .quality-category:hover, 
+            .education-item:hover {
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1477,6 +1562,36 @@
             document.querySelectorAll('.section').forEach(section => {
                 observer.observe(section);
             });
+
+            // Добавление эффекта свечения при прокрутке на мобильных устройствах
+            if (window.innerWidth <= 1024) {
+                const mobileObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Не добавляем класс mobile-glow к profile-image, так как у неё уже есть своя анимация
+                            if (!entry.target.classList.contains('profile-image')) {
+                                entry.target.classList.add('mobile-glow');
+                                
+                                // Сбрасываем анимацию через некоторое время
+                                setTimeout(() => {
+                                    entry.target.classList.remove('mobile-glow');
+                                    // Добавляем небольшую задержку перед повторным добавлением класса
+                                    setTimeout(() => {
+                                        if (entry.isIntersecting) {
+                                            entry.target.classList.add('mobile-glow');
+                                        }
+                                    }, 500);
+                                }, 3000);
+                            }
+                        }
+                    });
+                }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
+                
+                // Применяем наблюдатель ко всем секциям, карточкам навыков и образования
+                document.querySelectorAll('.section, .skill-category, .quality-category, .education-item').forEach(item => {
+                    mobileObserver.observe(item);
+                });
+            }
 
             // Кнопка "Наверх"
             const backToTopButton = document.getElementById('backToTop');
