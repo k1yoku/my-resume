@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover">
     <title>Скиба Максим Сергеевич - Резюме</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +42,31 @@
             box-sizing: border-box;
         }
 
+        /* Улучшения для отзывчивости */
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        /* Улучшения для touch устройств */
+        @media (hover: none) and (pointer: coarse) {
+            .mobile-menu-toggle {
+                min-height: 48px;
+                min-width: 48px;
+            }
+
+            .mobile-nav .nav-link a {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-link a {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
+
         body {
             font-family: var(--font-main);
             background: var(--bg-primary);
@@ -55,6 +80,10 @@
             -moz-osx-font-smoothing: grayscale;
             letter-spacing: -0.01em;
             position: relative;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+
         }
 
         body::before {
@@ -88,18 +117,21 @@
             margin: 0 auto;
             padding: 0;
             position: relative;
-            z-index: 2;
+            z-index: 1;
+            width: 100%;
         }
 
         .sections-container {
             padding: 2rem 1rem;
+            width: 100%;
+            max-width: 100%;
         }
 
-        .header {
+        .hero {
             background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border-radius: 8px;
             padding: 3rem 2.5rem 2rem 2.5rem;
-            margin: 5rem 1rem 1rem 1rem;
+            margin: 1rem 1rem 1rem 1rem;
             border: 2px solid var(--border-primary);
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.2),
@@ -113,7 +145,7 @@
             min-height: auto;
         }
 
-        .header::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
@@ -123,7 +155,7 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
         }
 
-        .header::after {
+        .hero::after {
             content: '';
             position: absolute;
             top: 0;
@@ -133,19 +165,53 @@
             background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.05), transparent);
         }
 
-        /* Навигационное меню */
+        /* Header Section */
+        .header-section {
+            position: relative;
+            width: 100%;
+            background: transparent;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Адаптивные размеры header-section */
+        @media (max-width: 992px) {
+            .header-section {
+                background: rgba(0, 0, 0, 0.95);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-section {
+                padding: 0.5rem 0;
+                background: rgba(0, 0, 0, 0.95);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-section {
+                padding: 0.25rem 0;
+                background: rgba(0, 0, 0, 0.98);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Строгий header */
         .nav-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             background: rgba(0, 0, 0, 0.98);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-primary);
-            z-index: 1000;
-            padding: 0.75rem 0;
+            padding: 0;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .nav-menu.scrolled {
+            background: rgba(0, 0, 0, 0.99);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
@@ -156,14 +222,21 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            width: 100%;
+            height: 60px;
         }
+
+
 
         .nav-links {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             list-style: none;
             margin: 0;
             padding: 0;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-link {
@@ -183,6 +256,18 @@
             display: block;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border: none;
+            outline: none;
+        }
+
+        .nav-link a:focus {
+            outline: none;
+            border: none;
+        }
+
+        .nav-link a:active {
+            outline: none;
+            border: none;
         }
 
         .nav-link a:hover {
@@ -195,31 +280,41 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+
+
         /* Мобильное меню */
         .mobile-menu-toggle {
             display: none;
-            background: none;
-            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-primary);
             cursor: pointer;
             padding: 8px;
             width: 44px;
             height: 44px;
             position: absolute;
-            right: 0;
+            right: 2rem;
             top: 50%;
             transform: translateY(-50%);
             z-index: 1001;
             border-radius: 4px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: center;
         }
 
         .mobile-menu-toggle:hover {
             background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-secondary);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .mobile-menu-toggle:active {
+            transform: translateY(-50%) scale(0.95);
         }
 
         .burger-icon {
-            width: 24px;
-            height: 18px;
+            width: 20px;
+            height: 14px;
             position: relative;
             margin: 0 auto;
         }
@@ -233,6 +328,7 @@
             left: 0;
             transition: all 0.3s ease;
             border-radius: 1px;
+            transform-origin: center;
         }
 
         .burger-line:nth-child(1) {
@@ -240,15 +336,15 @@
         }
 
         .burger-line:nth-child(2) {
-            top: 10px;
+            top: 6px;
         }
 
         .burger-line:nth-child(3) {
-            top: 20px;
+            top: 12px;
         }
 
         .mobile-menu-toggle.active .burger-line:nth-child(1) {
-            top: 10px;
+            top: 6px;
             transform: rotate(45deg);
         }
 
@@ -257,7 +353,7 @@
         }
 
         .mobile-menu-toggle.active .burger-line:nth-child(3) {
-            top: 10px;
+            top: 6px;
             transform: rotate(-45deg);
         }
 
@@ -271,51 +367,86 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid var(--border-primary);
-            padding: 2rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+            padding: 1.5rem 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .mobile-nav.active {
             display: block !important;
-            animation: slideDown 0.3s ease;
+            max-height: 400px;
+            animation: slideDownMobile 0.3s ease;
         }
 
-        @keyframes slideDown {
+        @keyframes slideDownMobile {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-20px);
+                max-height: 0;
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
+                max-height: 400px;
             }
         }
 
         .mobile-nav .nav-links {
             flex-direction: column;
-            gap: 1.2rem;
-            padding: 1.5rem 2rem;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
             list-style: none;
             margin: 0;
         }
 
         .mobile-nav .nav-link {
             width: 100%;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
         }
 
-                            .mobile-nav .nav-link a {
-            padding: 1.25rem 2rem;
-            border-radius: 6px;
+        .mobile-nav.active .nav-link {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .mobile-nav.active .nav-link:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-nav.active .nav-link:nth-child(2) { transition-delay: 0.15s; }
+        .mobile-nav.active .nav-link:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-nav.active .nav-link:nth-child(4) { transition-delay: 0.25s; }
+        .mobile-nav.active .nav-link:nth-child(5) { transition-delay: 0.3s; }
+        .mobile-nav.active .nav-link:nth-child(6) { transition-delay: 0.35s; }
+
+        .mobile-nav .nav-link a {
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
             display: block;
             transition: all 0.3s ease;
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1.4;
+            border: none;
+            outline: none;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .mobile-nav .nav-link a:focus {
+            outline: none;
+            border: none;
+        }
+
+        .mobile-nav .nav-link a:active {
+            outline: none;
+            border: none;
         }
 
         .mobile-nav .nav-link a:hover {
@@ -328,6 +459,90 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .nav-container {
+                justify-content: center;
+            }
+            
+            .nav-container > .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1.5rem;
+                height: 56px;
+            }
+            
+            .mobile-menu-toggle {
+                right: 1.5rem;
+                width: 40px;
+                height: 40px;
+                padding: 6px;
+            }
+            
+            .burger-icon {
+                width: 18px;
+                height: 12px;
+            }
+            
+            .mobile-nav .nav-links {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+                height: 52px;
+            }
+            
+            .mobile-menu-toggle {
+                right: 1rem;
+                width: 36px;
+                height: 36px;
+                padding: 5px;
+            }
+            
+            .burger-icon {
+                width: 16px;
+                height: 10px;
+            }
+            
+            .burger-line:nth-child(2) {
+                top: 5px;
+            }
+            
+            .burger-line:nth-child(3) {
+                top: 10px;
+            }
+            
+            .mobile-menu-toggle.active .burger-line:nth-child(1) {
+                top: 5px;
+            }
+            
+            .mobile-menu-toggle.active .burger-line:nth-child(3) {
+                top: 5px;
+            }
+            
+            .mobile-nav .nav-links {
+                padding: 1rem;
+            }
+            
+            .mobile-nav .nav-link a {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.85rem;
+            }
+        }
+
         .profile-section {
             display: grid;
             grid-template-columns: 240px 1fr;
@@ -338,6 +553,16 @@
             max-width: 1400px;
             width: 100%;
             padding: 0;
+        }
+
+        @media (max-width: 992px) {
+            .profile-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+                justify-items: center;
+                padding: 0;
+            }
         }
 
         .profile-image {
@@ -373,10 +598,12 @@
             z-index: 1;
         }
 
-        .profile-image:hover {
-            transform: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            border-color: var(--border-secondary);
+        @media (hover: hover) and (pointer: fine) {
+            .profile-image:hover {
+                transform: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                border-color: var(--border-secondary);
+            }
         }
 
         .profile-info {
@@ -390,7 +617,7 @@
 
         .profile-info h1 {
             font-family: var(--font-main);
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 0.8rem;
@@ -398,6 +625,8 @@
             line-height: 1.1;
             text-align: left;
             position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .profile-info h1::after {
@@ -470,11 +699,13 @@
             font-weight: 500;
         }
 
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--border-secondary);
-            transform: none;
-            box-shadow: none;
+        @media (hover: hover) and (pointer: fine) {
+            .contact-item:hover {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: var(--border-secondary);
+                transform: none;
+                box-shadow: none;
+            }
         }
 
         .contact-icon {
@@ -500,6 +731,67 @@
             stroke-linejoin: round;
         }
 
+        /* Стили для новой секции контактов */
+        .contact-info-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-intro p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--text-primary);
+        }
+
+        .contact-details span {
+            color: var(--text-secondary);
+        }
+
+        .contact-cta {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid var(--border-primary);
+        }
+
+        .contact-cta p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-cta strong {
+            color: var(--text-primary);
+        }
+
         .profile-social {
             display: flex;
             justify-content: flex-start;
@@ -514,8 +806,10 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .social-item:hover {
-            transform: none;
+        @media (hover: hover) and (pointer: fine) {
+            .social-item:hover {
+                transform: none;
+            }
         }
 
         .social-label {
@@ -548,12 +842,14 @@
             display: none;
         }
 
-        .social-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--border-secondary);
-            color: var(--text-primary);
-            transform: none;
-            box-shadow: none;
+        @media (hover: hover) and (pointer: fine) {
+            .social-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: var(--border-secondary);
+                color: var(--text-primary);
+                transform: none;
+                box-shadow: none;
+            }
         }
 
         .social-btn svg {
@@ -597,22 +893,25 @@
 
 
 
-        .section:hover {
-            border-color: var(--border-secondary);
-            box-shadow: 
-                0 12px 48px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                var(--shadow-glow);
-            transform: translateY(-2px);
-        }
+        /* Hover-эффекты только для устройств с точным указателем (мышь) */
+        @media (hover: hover) and (pointer: fine) {
+            .section:hover {
+                border-color: var(--border-secondary);
+                box-shadow: 
+                    0 12px 48px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    var(--shadow-glow);
+                transform: translateY(-2px);
+            }
 
-        .header:hover {
-            border-color: var(--border-secondary);
-            box-shadow: 
-                0 12px 48px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                var(--shadow-glow);
-            transform: translateY(-2px);
+            .hero:hover {
+                border-color: var(--border-secondary);
+                box-shadow: 
+                    0 12px 48px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    var(--shadow-glow);
+                transform: translateY(-2px);
+            }
         }
 
         .section-title {
@@ -640,8 +939,9 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
             gap: 1.5rem;
+            width: 100%;
         }
 
         .skill-category, .quality-category {
@@ -664,9 +964,11 @@
             background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
         }
 
-        .skill-category:hover, .quality-category:hover {
-            border-color: var(--border-secondary);
-            background: var(--bg-card);
+        @media (hover: hover) and (pointer: fine) {
+            .skill-category:hover, .quality-category:hover {
+                border-color: var(--border-secondary);
+                background: var(--bg-card);
+            }
         }
 
         .skill-category h3, .quality-category h3 {
@@ -713,10 +1015,12 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
         }
 
-        .skill-tag:hover, .quality-tag:hover {
-            background: var(--bg-card);
-            border-color: var(--border-secondary);
-            color: var(--text-primary);
+        @media (hover: hover) and (pointer: fine) {
+            .skill-tag:hover, .quality-tag:hover {
+                background: var(--bg-card);
+                border-color: var(--border-secondary);
+                color: var(--text-primary);
+            }
         }
 
         .skill-icon, .quality-icon {
@@ -754,7 +1058,7 @@
             background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
         }
 
-        .experience-item, .education-item {
+        .experience-item {
             position: relative;
             background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
             border-radius: 6px;
@@ -766,7 +1070,7 @@
             overflow: hidden;
         }
 
-        .experience-item::before, .education-item::before {
+        .experience-item::before {
             content: '';
             position: absolute;
             top: 0;
@@ -778,9 +1082,11 @@
 
 
 
-        .experience-item:hover, .education-item:hover {
-            border-color: var(--border-secondary);
-            background: var(--bg-card);
+        @media (hover: hover) and (pointer: fine) {
+            .experience-item:hover {
+                border-color: var(--border-secondary);
+                background: var(--bg-card);
+            }
         }
 
         .experience-item::after {
@@ -862,36 +1168,13 @@
             font-size: 0.875rem;
         }
 
-        .education-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        }
 
-        .education-item {
-            position: relative;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            padding: 1.5rem;
-            border: 1px solid var(--border-primary);
-            transition: all 0.2s ease-in-out;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .education-item p {
-            flex-grow: 1;
-            margin: 0;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
 
         .qualities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
             gap: 1.5rem;
+            width: 100%;
         }
 
 
@@ -1027,8 +1310,8 @@
 
         .footer {
             text-align: center;
-            padding: 2rem 1rem;
-            margin: 2rem 0;
+            padding: 1.5rem 1rem;
+            margin: 1.5rem 0;
         }
 
         .footer-text {
@@ -1050,14 +1333,14 @@
         .footer-info {
             font-size: 0.8rem;
             color: var(--text-tertiary);
-            margin: 0.5rem 0;
+            margin: 0.3rem 0;
             font-weight: 400;
         }
 
         .footer-contact {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin: 0.75rem 0;
+            margin: 0.5rem 0;
         }
 
         .footer-link {
@@ -1073,7 +1356,7 @@
         .footer-year {
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 1rem;
+            margin-top: 0.75rem;
             font-weight: 300;
         }
 
@@ -1094,13 +1377,19 @@
 
         /* Адаптивность */
         @media (max-width: 1200px) {
-            .skills-grid, .education-grid, .qualities-grid {
+            .container {
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+
+            .skills-grid, .qualities-grid {
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
                 gap: 1.25rem;
             }
             
             .section {
                 padding: 1.75rem;
+                margin-bottom: 1.5rem;
             }
             
             .contact-grid {
@@ -1112,16 +1401,55 @@
                 max-width: 600px;
                 padding: 0 0.5rem;
             }
+
+            .profile-info h1 {
+                font-size: 2.5rem;
+            }
         }
         
         @media (max-width: 992px) {
+            .nav-menu {
+                padding: 1.25rem 0;
+            }
+
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+
+            .mobile-menu-toggle {
+                display: flex !important;
+                width: 52px;
+                height: 52px;
+                padding: 14px;
+                right: 1.5rem;
+            }
+
+            .burger-icon {
+                width: 26px;
+                height: 20px;
+            }
+
+            .nav-container > .nav-links {
+                display: none;
+            }
+
+            .mobile-nav .nav-links {
+                display: flex !important;
+                padding: 1rem 1.5rem;
+            }
+
+            .mobile-nav .nav-link a {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
             .sections-container {
                 padding: 1.5rem;
             }
             
-            .header {
+            .hero {
                 padding: 2rem 1.5rem;
-                margin: 6rem 1rem 1rem 1rem;
+                margin: 1rem 1rem 1rem 1rem;
                 min-height: auto;
             }
 
@@ -1159,7 +1487,7 @@
                 padding: 0 1rem;
             }
             
-            .skills-grid, .education-grid, .qualities-grid {
+            .skills-grid, .qualities-grid {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 1.25rem;
             }
@@ -1178,81 +1506,56 @@
                 gap: 1rem;
             }
             
-            .skill-category, .quality-category, .education-item {
+            .skill-category, .quality-category {
                 padding: 1.25rem;
             }
         }
 
         @media (max-width: 768px) {
             .nav-menu {
-                padding: 1.8rem 0;
+                padding: 1rem 0;
             }
 
             .nav-container {
-                padding: 0 2rem;
+                padding: 0 1rem;
             }
 
             .mobile-menu-toggle {
-                width: 56px;
-                height: 56px;
-                padding: 14px;
+                display: flex !important;
+                width: 48px;
+                height: 48px;
+                padding: 12px;
+                right: 1rem;
             }
 
             .burger-icon {
-                width: 28px;
-                height: 22px;
-            }
-
-            .sections-container {
-                padding: 1rem;
-            }
-
-            .header {
-                padding: 1.5rem 1rem;
-                margin: 8rem 0.5rem 1rem 0.5rem;
-                min-height: auto;
-            }
-
-            .footer {
-                padding: 1.5rem 1rem;
-                margin: 1.5rem 0;
-            }
-
-            .footer-text {
-                font-size: 0.85rem;
-            }
-
-            .footer-info {
-                font-size: 0.75rem;
-            }
-
-            .footer-contact {
-                font-size: 0.8rem;
-            }
-
-            .footer-year {
-                font-size: 0.7rem;
+                width: 24px;
+                height: 18px;
             }
 
             .nav-container > .nav-links {
                 display: none;
             }
 
-            .mobile-menu-toggle {
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
-            }
-
             .mobile-nav .nav-links {
                 display: flex !important;
+                padding: 0.75rem 1rem;
             }
 
-            .nav-container {
-                justify-content: center;
+            .mobile-nav .nav-link a {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.95rem;
             }
 
+            .sections-container {
+                padding: 1rem;
+            }
 
+            .hero {
+                padding: 1.5rem 1rem;
+                margin: 0.5rem 0.5rem 1rem 0.5rem;
+                min-height: auto;
+            }
 
             .profile-section {
                 grid-template-columns: 1fr;
@@ -1293,7 +1596,7 @@
                 gap: 1rem;
             }
 
-            .skills-grid, .qualities-grid, .education-grid {
+            .skills-grid, .qualities-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
@@ -1349,41 +1652,169 @@
                 gap: 1.5rem;
                 margin-top: 1.5rem;
             }
+
+            .footer {
+                padding: 1.25rem 1rem;
+                margin: 1.25rem 0;
+            }
+
+            .footer-text {
+                font-size: 0.85rem;
+            }
+
+            .footer-info {
+                font-size: 0.75rem;
+            }
+
+            .footer-contact {
+                font-size: 0.8rem;
+            }
+
+            .footer-year {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Дополнительные медиа-запросы для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .nav-menu {
+                padding: 0.5rem 0;
+            }
+
+            .nav-container {
+                padding: 0 0.75rem;
+            }
+
+            .mobile-menu-toggle {
+                width: 40px;
+                height: 40px;
+                padding: 8px;
+                right: 0.75rem;
+            }
+
+            .burger-icon {
+                width: 20px;
+                height: 14px;
+            }
+
+            .burger-line {
+                height: 2px;
+            }
+
+            .burger-line:nth-child(2) {
+                top: 6px;
+            }
+
+            .burger-line:nth-child(3) {
+                top: 12px;
+            }
+
+            .mobile-menu-toggle.active .burger-line:nth-child(1) {
+                top: 6px;
+            }
+
+            .mobile-menu-toggle.active .burger-line:nth-child(3) {
+                top: 6px;
+            }
+
+            .mobile-nav .nav-links {
+                padding: 0.5rem;
+            }
+
+            .mobile-nav .nav-link a {
+                padding: 0.625rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                margin: 0.25rem 0.25rem 1rem 0.25rem;
+                padding: 1.25rem 0.75rem;
+            }
+
+            .sections-container {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Медиа-запросы для больших экранов */
+        @media (min-width: 1201px) {
+            .nav-menu {
+                padding: 1rem 0;
+            }
+
+            .nav-container {
+                padding: 0 2rem;
+            }
+
+            .nav-link a {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.25rem;
+            }
+        }
+
+        /* Медиа-запросы для очень больших экранов */
+        @media (min-width: 1400px) {
+            .nav-menu {
+                padding: 1.25rem 0;
+            }
+
+            .nav-container {
+                padding: 0 2.5rem;
+            }
+
+            .nav-link a {
+                font-size: 0.95rem;
+                padding: 0.875rem 1.5rem;
+            }
+
+            .nav-container {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 576px) {
             .nav-menu {
-                padding: 1.5rem 0;
+                padding: 0.75rem 0;
             }
 
             .nav-container {
-                padding: 0 1.5rem;
+                padding: 0 1rem;
             }
 
             .mobile-menu-toggle {
-                width: 60px;
-                height: 60px;
-                padding: 16px;
+                width: 44px;
+                height: 44px;
+                padding: 10px;
+                right: 1rem;
             }
 
             .burger-icon {
-                width: 28px;
-                height: 22px;
+                width: 22px;
+                height: 16px;
+            }
+
+            .mobile-nav .nav-links {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .mobile-nav .nav-link a {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
             }
 
             .sections-container {
                 padding: 0.75rem;
             }
             
-            .header {
+            .hero {
                 padding: 1.5rem 1rem;
-                margin: 9rem 0.5rem 1rem 0.5rem;
+                margin: 0.5rem 0.5rem 1rem 0.5rem;
                 min-height: auto;
             }
 
             .footer {
-                padding: 1.25rem 1rem;
-                margin: 1rem 0;
+                padding: 1rem 1rem;
+                margin: 0.75rem 0;
             }
 
             .footer-text {
@@ -1412,8 +1843,8 @@
             }
             
             .profile-image {
-                width: 120px;
-                height: 160px;
+                width: 160px;
+                height: 200px;
                 border-radius: 8px;
             }
 
@@ -1453,7 +1884,7 @@
                 margin-bottom: 1rem;
             }
             
-            .skill-category, .quality-category, .education-item {
+            .skill-category, .quality-category {
                 padding: 0.75rem;
                 border-radius: 8px;
             }
@@ -1547,10 +1978,7 @@
                 line-height: 1.4;
             }
             
-            .education-item p {
-                font-size: 0.8rem;
-                line-height: 1.4;
-            }
+
         }
 
         /* Поддержка для уменьшения движения */
@@ -1615,7 +2043,7 @@
                 padding: 0;
             }
             
-            .header, .section {
+            .hero, .section {
                 background: none;
                 box-shadow: none;
                 border: 1px solid #ccc;
@@ -1637,38 +2065,45 @@
 <body>
     <div class="decorative-dots"></div>
     
-    <nav class="nav-menu">
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li class="nav-link active"><a href="#home">Главная</a></li>
-                <li class="nav-link"><a href="#projects">Проекты</a></li>
-                <li class="nav-link"><a href="#skills">Навыки</a></li>
-                <li class="nav-link"><a href="#experience">Опыт</a></li>
-                <li class="nav-link"><a href="#education">Образование</a></li>
-                <li class="nav-link"><a href="#qualities">Качества</a></li>
-            </ul>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                <div class="burger-icon">
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                </div>
-            </button>
-        </div>
-        <div class="mobile-nav" id="mobileNav">
-            <ul class="nav-links">
-                <li class="nav-link active"><a href="#home">Главная</a></li>
-                <li class="nav-link"><a href="#projects">Проекты</a></li>
-                <li class="nav-link"><a href="#skills">Навыки</a></li>
-                <li class="nav-link"><a href="#experience">Опыт</a></li>
-                <li class="nav-link"><a href="#education">Образование</a></li>
-                <li class="nav-link"><a href="#qualities">Качества</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Header Section -->
+    <section class="header-section">
+        <header class="nav-menu" id="navMenu">
+            <div class="nav-container">
+                <nav class="nav-links" role="navigation" aria-label="Основное меню">
+                    <li class="nav-link active"><a href="#home">Обо мне</a></li>
+                    <li class="nav-link"><a href="#skills">Навыки</a></li>
+                    <li class="nav-link"><a href="#projects">Проекты</a></li>
+                    <li class="nav-link"><a href="#experience">Опыт</a></li>
+                    <li class="nav-link"><a href="#education">Образование</a></li>
+                </nav>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" 
+                        aria-label="Открыть меню навигации" 
+                        aria-expanded="false" 
+                        aria-controls="mobileNav"
+                        type="button">
+                    <div class="burger-icon">
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                    </div>
+                </button>
+            </div>
+            
+            <div class="mobile-nav" id="mobileNav" aria-hidden="true" role="navigation" aria-label="Мобильное меню навигации">
+                <ul class="nav-links">
+                    <li class="nav-link active"><a href="#home">Обо мне</a></li>
+                    <li class="nav-link"><a href="#skills">Навыки</a></li>
+                    <li class="nav-link"><a href="#projects">Проекты</a></li>
+                    <li class="nav-link"><a href="#experience">Опыт</a></li>
+                    <li class="nav-link"><a href="#education">Образование</a></li>
+                </ul>
+            </div>
+        </header>
+    </section>
     
     <div class="container">
-        <header class="header fade-in" id="home">
+        <section class="hero fade-in" id="home">
             <div class="profile-section">
                 <div class="profile-image">
                     <img src="image/photo.jpg" alt="Максим Скиба">
@@ -1746,39 +2181,12 @@
                     </div>
                 </div>
             </div>
-        </header>
+        </section>
 
         <div class="sections-container">
 
-        <section class="section fade-in" id="projects">
-            <h2 class="section-title">Проекты</h2>
-            <div class="experience-timeline">
-                <div class="experience-item">
-                    <div class="job-header">
-                        <div>
-                            <div class="job-title">Apple House — Корпоративный сайт</div>
-                            <div class="company">Капсульные дома • Полный цикл разработки</div>
-                        </div>
-                        <div class="date">2 месяца</div>
-                    </div>
-                    <div class="responsibilities">
-                        <ul>
-                            <li>Создание современного корпоративного сайта <a href="https://эпл-хаус.рф/" target="_blank" style="color: var(--accent-primary); text-decoration: underline;">эпл-хаус.рф</a></li>
-                            <li>Разработка уникального дизайна с акцентом на экологичность</li>
-                            <li>Адаптивная верстка для всех типов устройств</li>
-                            <li>Интерактивные элементы и анимации на JavaScript</li>
-                            <li>Оптимизация производительности и SEO</li>
-                            <li>Интеграция системы заявок и обратной связи</li>
-                            <li>Создание галереи проектов и каталога продукции</li>
-                            <li>Настройка хостинга и домена</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="section fade-in" id="skills">
-            <h2 class="section-title">Технические Навыки</h2>
+            <h2 class="section-title">Навыки и Технологии</h2>
             <div class="skills-grid">
                 <div class="skill-category">
                     <h3>Языки Программирования</h3>
@@ -1849,6 +2257,33 @@
                             </div>
                             <span>Windows Server</span>
                         </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in" id="projects">
+            <h2 class="section-title">Проекты</h2>
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Apple House — Корпоративный сайт</div>
+                            <div class="company">Капсульные дома • Полный цикл разработки</div>
+                        </div>
+                        <div class="date">2 месяца</div>
+                    </div>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Создание современного корпоративного сайта <a href="https://эпл-хаус.рф/" target="_blank" style="color: var(--accent-primary); text-decoration: underline;">эпл-хаус.рф</a></li>
+                            <li>Разработка уникального дизайна с акцентом на экологичность</li>
+                            <li>Адаптивная верстка для всех типов устройств</li>
+                            <li>Интерактивные элементы и анимации на JavaScript</li>
+                            <li>Оптимизация производительности и SEO</li>
+                            <li>Интеграция системы заявок и обратной связи</li>
+                            <li>Создание галереи проектов и каталога продукции</li>
+                            <li>Настройка хостинга и домена</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1958,8 +2393,8 @@
 
         <section class="section fade-in" id="education">
             <h2 class="section-title">Образование</h2>
-            <div class="education-grid">
-                <div class="education-item">
+            <div class="experience-timeline">
+                <div class="experience-item">
                     <div class="job-header">
                         <div>
                             <div class="job-title">Информационные системы и программирование</div>
@@ -1967,10 +2402,17 @@
                         </div>
                         <div class="date">2022 — 2025</div>
                     </div>
-                    <p>Среднее профессиональное образование по специальности "Информационные системы и программирование" (заочная форма обучения)</p>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Среднее профессиональное образование по специальности "Информационные системы и программирование"</li>
+                            <li>Заочная форма обучения</li>
+                            <li>Изучение современных технологий разработки</li>
+                            <li>Практические навыки программирования</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="education-item">
+                <div class="experience-item">
                     <div class="job-header">
                         <div>
                             <div class="job-title">НЕЙРОСЕТИ: Система профессионального успеха</div>
@@ -1978,10 +2420,17 @@
                         </div>
                         <div class="date">2024 — 2025</div>
                     </div>
-                    <p>Комплексное обучение работе с нейросетями для профессионального применения. Освоение продвинутых техник промптинга, интеграции AI в рабочие процессы и создания эффективных систем автоматизации.</p>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Комплексное обучение работе с нейросетями для профессионального применения</li>
+                            <li>Освоение продвинутых техник промптинга</li>
+                            <li>Интеграция AI в рабочие процессы</li>
+                            <li>Создание эффективных систем автоматизации</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="education-item">
+                <div class="experience-item">
                     <div class="job-header">
                         <div>
                             <div class="job-title">Создание сайтов</div>
@@ -1989,10 +2438,17 @@
                         </div>
                         <div class="date">2021 — 2022</div>
                     </div>
-                    <p>Углубленный курс по веб-разработке: HTML, CSS, JavaScript, адаптивный дизайн и современные фреймворки для создания интерактивных веб-сайтов</p>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Углубленный курс по веб-разработке</li>
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>Адаптивный дизайн</li>
+                            <li>Современные фреймворки для создания интерактивных веб-сайтов</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="education-item">
+                <div class="experience-item">
                     <div class="job-header">
                         <div>
                             <div class="job-title">Python разработка</div>
@@ -2000,10 +2456,17 @@
                         </div>
                         <div class="date">2021 — 2022</div>
                     </div>
-                    <p>Интенсивное изучение Python: базовый курс программирования и специализация по разработке игр</p>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Интенсивное изучение Python</li>
+                            <li>Базовый курс программирования</li>
+                            <li>Специализация по разработке игр</li>
+                            <li>Практические проекты и задачи</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="education-item">
+                <div class="experience-item">
                     <div class="job-header">
                         <div>
                             <div class="job-title">Основы программирования</div>
@@ -2011,204 +2474,19 @@
                         </div>
                         <div class="date">2018 — 2020</div>
                     </div>
-                    <p>Фундаментальное изучение основ программирования, алгоритмов и структур данных</p>
+                    <div class="responsibilities">
+                        <ul>
+                            <li>Фундаментальное изучение основ программирования</li>
+                            <li>Алгоритмы и структуры данных</li>
+                            <li>Базовые принципы разработки</li>
+                            <li>Практические задачи по программированию</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section fade-in" id="qualities">
-            <h2 class="section-title">Личные Качества</h2>
-            <div class="qualities-grid">
-                <div class="quality-category">
-                    <h3>Профессиональные качества</h3>
-                    <div class="quality-tags">
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                </svg>
-                    </div>
-                            <span>Целеустремленность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                                </svg>
-                </div>
-                            <span>Быстрая обучаемость</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                                    <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
-                                </svg>
-                            </div>
-                            <span>Открытость к новому</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M9 12l2 2 4-4"/>
-                                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
-                                    <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
-                                    <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
-                                    <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
-                                </svg>
-                            </div>
-                            <span>Профессиональная честность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
-                                    <rect x="2" y="9" width="20" height="12" rx="2" ry="2"/>
-                                    <circle cx="12" cy="15" r="1"/>
-                                </svg>
-                            </div>
-                            <span>Готовность к обратной связи</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12 2v20"/>
-                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                                </svg>
-                            </div>
-                            <span>Многозадачность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                </svg>
-                            </div>
-                            <span>Внимательность к деталям</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                                </svg>
-                            </div>
-                            <span>Стрессоустойчивость</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M12 6v6l4 2"/>
-                                </svg>
-                            </div>
-                            <span>Пунктуальность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/>
-                                    <path d="M19 4H15a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
-                                </svg>
-                            </div>
-                            <span>Аналитическое мышление</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="quality-category">
-                    <h3>Дополнительная информация</h3>
-                    <div class="quality-tags">
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                    </div>
-                            <span>Командные виды спорта</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M12 6v6l4 2"/>
-                                </svg>
-                            </div>
-                            <span>Футбол (команда "Медведи")</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                                </svg>
-                            </div>
-                            <span>Активный образ жизни</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                            </div>
-                            <span>Лидерские качества</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                                </svg>
-                            </div>
-                            <span>Самообразование</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                            </div>
-                            <span>Коммуникабельность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
-                                    <rect x="2" y="9" width="20" height="12" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                            <span>Ответственность</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12 2v20"/>
-                                    <path d="M2 12h20"/>
-                                </svg>
-                            </div>
-                            <span>Гибкость в работе</span>
-                        </span>
-                        <span class="quality-tag">
-                            <div class="quality-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M9 12l2 2 4-4"/>
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                            </div>
-                            <span>Исполнительность</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
+
         </div>
     </div>
 
@@ -2219,8 +2497,8 @@
         <p class="footer-info">
             HTML • CSS • JavaScript • Адаптивный дизайн
         </p>
-        <p class="footer-contact">
-            <a href="mailto:i@mskiba.ru" class="footer-link">i@mskiba.ru</a> • 
+                <p class="footer-contact">
+            <a href="mailto:i@mskiba.ru" class="footer-link">i@mskiba.ru</a> •
             <a href="tel:+79803759582" class="footer-link">+7 (980) 375-95-82</a>
         </p>
         <p class="footer-year">© 2025</p>
@@ -2279,14 +2557,14 @@
             const backToTopButton = document.getElementById('backToTop');
             
             // Показать кнопку после прокрутки первой секции
-            const headerSection = document.querySelector('.header');
+            const heroSection = document.querySelector('.hero');
             
             window.addEventListener('scroll', () => {
                 // Получаем позицию и высоту первой секции
-                const headerRect = headerSection.getBoundingClientRect();
+                const heroRect = heroSection.getBoundingClientRect();
                 
-                // Если нижняя граница шапки вышла за пределы экрана (прокрутили первую секцию)
-                if (headerRect.bottom <= 0) {
+                // Если нижняя граница hero вышла за пределы экрана (прокрутили первую секцию)
+                if (heroRect.bottom <= 0) {
                     backToTopButton.classList.add('visible');
                 } else {
                     backToTopButton.classList.remove('visible');
@@ -2304,31 +2582,67 @@
             // Мобильное меню
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const mobileNav = document.getElementById('mobileNav');
+            let isMenuOpen = false;
+            let touchStartY = 0;
+
+            // Функция для переключения меню
+            function toggleMenu() {
+                if (mobileMenuToggle && mobileNav) {
+                    isMenuOpen = !isMenuOpen;
+                    
+                    if (isMenuOpen) {
+                        mobileNav.classList.add('active');
+                        mobileMenuToggle.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                        // Добавляем ARIA атрибуты для доступности
+                        mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                        mobileNav.setAttribute('aria-hidden', 'false');
+                    } else {
+                        mobileNav.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                        document.body.style.overflow = '';
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        mobileNav.setAttribute('aria-hidden', 'true');
+                    }
+                }
+            }
 
             if (mobileMenuToggle && mobileNav) {
+
                 // Обработчик клика по бургер-меню
                 mobileMenuToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
-                    // Переключаем классы
-                    mobileNav.classList.toggle('active');
-                    mobileMenuToggle.classList.toggle('active');
-                    
-                    // Блокируем скролл при открытом меню
-                    if (mobileNav.classList.contains('active')) {
-                        document.body.style.overflow = 'hidden';
-                    } else {
-                        document.body.style.overflow = '';
-                    }
+                    toggleMenu();
                 });
+
+                // Обработчик для touch событий
+                mobileMenuToggle.addEventListener('touchstart', function(e) {
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                mobileMenuToggle.addEventListener('touchend', function(e) {
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const touchDiff = Math.abs(touchEndY - touchStartY);
+                    
+                    // Если это не свайп, то обрабатываем как клик
+                    if (touchDiff < 10) {
+                        e.preventDefault();
+                        toggleMenu();
+                    }
+                }, { passive: false });
 
                 // Закрытие меню при клике вне его
                 document.addEventListener('click', function(e) {
-                    if (!mobileMenuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
-                        mobileNav.classList.remove('active');
-                        mobileMenuToggle.classList.remove('active');
-                        document.body.style.overflow = '';
+                    if (isMenuOpen && !mobileMenuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
+                        toggleMenu();
+                    }
+                });
+
+                // Закрытие меню при нажатии Escape
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && isMenuOpen) {
+                        toggleMenu();
                     }
                 });
 
@@ -2336,21 +2650,27 @@
                 const mobileNavLinks = mobileNav.querySelectorAll('a');
                 mobileNavLinks.forEach(link => {
                     link.addEventListener('click', function() {
-                        mobileNav.classList.remove('active');
-                        mobileMenuToggle.classList.remove('active');
-                        document.body.style.overflow = '';
+                        if (isMenuOpen) {
+                            toggleMenu();
+                        }
                     });
+                });
+
+                // Закрытие меню при изменении размера экрана
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 992 && isMenuOpen) {
+                        toggleMenu();
+                    }
                 });
             }
 
             // Активная ссылка при скролле
             function updateActiveLink() {
-                const sections = document.querySelectorAll('section[id], header[id]');
-                const navHeight = document.querySelector('.nav-menu').offsetHeight;
+                const sections = document.querySelectorAll('section[id]');
                 let current = '';
 
                 sections.forEach(section => {
-                    const sectionTop = section.offsetTop - navHeight - 50;
+                    const sectionTop = section.offsetTop - 100; // Небольшой отступ для лучшего UX
                     const sectionHeight = section.offsetHeight;
                     
                     if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
@@ -2369,34 +2689,56 @@
             }
 
             // Плавный скролл для внутренних ссылок
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            const navigationLinks = document.querySelectorAll('a[href^="#"]');
+            console.log('Найдено навигационных ссылок:', navigationLinks.length);
+            
+            navigationLinks.forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
+                    console.log('Клик по ссылке:', this.getAttribute('href'));
+                    
                     const target = document.querySelector(this.getAttribute('href'));
+                    console.log('Найдена цель:', target);
+                    
                     if (target) {
                         // Закрыть мобильное меню при клике на ссылку
-                        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-                        const mobileNav = document.getElementById('mobileNav');
-                        if (mobileNav && mobileMenuToggle) {
-                            mobileNav.classList.remove('active');
-                            mobileMenuToggle.classList.remove('active');
-                            document.body.style.overflow = '';
+                        if (mobileMenuToggle && mobileNav && isMenuOpen) {
+                            toggleMenu();
                         }
                         
-                        // Учитываем высоту навигации
-                        const navHeight = document.querySelector('.nav-menu').offsetHeight;
-                        const targetPosition = target.offsetTop - navHeight;
+                        // Учитываем высоту навигации (для статичного header не нужно)
+                        const targetPosition = target.offsetTop;
+                        console.log('Позиция цели:', targetPosition);
                         
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
                         });
+                    } else {
+                        console.log('Цель не найдена для:', this.getAttribute('href'));
                     }
                 });
             });
 
             // Обновляем активную ссылку при скролле
             window.addEventListener('scroll', updateActiveLink);
+            
+            // Эффект прокрутки для header
+            const navMenu = document.getElementById('navMenu');
+            let lastScrollY = window.scrollY;
+            
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                // Добавляем класс scrolled при прокрутке
+                if (currentScrollY > 50) {
+                    navMenu.classList.add('scrolled');
+                } else {
+                    navMenu.classList.remove('scrolled');
+                }
+                
+                lastScrollY = currentScrollY;
+            });
             
             // Инициализация при загрузке
             updateActiveLink();
